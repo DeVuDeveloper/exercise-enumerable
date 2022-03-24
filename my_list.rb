@@ -3,17 +3,25 @@ class MyList
   include MyEnumerable
   @list = []
 
-  def initialize(*lis)
-    @list = lis
+  def initialize(*list)
+    @list = list
   end
 
-  def each(&block)
-    @list.each(&block)
+  def each
+    n = 0
+    while @list[n]
+      yield @list[n]
+      n += 1
+    end
   end
 end
 
-MyList.new(1, 2, 3, 4).all? { |item| item < 5 }
-MyList.new(1, 2, 3, 4).all? { |item| item > 5 }
-MyList.new(1, 2, 3, 4).any? { |item| item == 2 }
-MyList.new(1, 2, 3, 4).any? { |item| item == 5 }
-MyList.new(1, 2, 3, 4).filter?(&:even?)
+list = MyList.new(1, 2, 3, 4)
+
+list.all? { |e| e < 5 }
+list.all? { |e| e > 5 }
+
+list.any? { |e| e == 2 }
+list.any? { |e| e == 5 }
+
+puts list.filter(&:even?)
